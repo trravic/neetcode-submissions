@@ -1,0 +1,58 @@
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+     Map<Integer, Integer> hmap = new HashMap<>();
+
+        for(int x : nums){
+            hmap.put(x, hmap.getOrDefault(x,0)+1);
+        }
+
+        List<Integer>[] freq = new List[nums.length+1];
+
+        for(int i = 0 ; i < nums.length+1 ; i++){
+            freq[i] = new ArrayList<>();
+         }
+
+        for(Map.Entry<Integer,Integer> entry : hmap.entrySet()) {
+            freq[entry.getValue()].add(entry.getKey());
+        }
+
+        int[] res = new int[k];
+
+        int index = 0;
+        
+        for(int i = freq.length-1 ; i > 0 && index < k ; i--){
+            for(int n : freq[i]){
+                res[index++] = n;
+                if(index == k)
+                    return res;
+            }
+        }
+
+        return res;
+    }
+}
+/**
+nums = [1,2,2,3,3,3], k = 2
+
+1. count frequency 
+1 -> 1
+2 -> 2 
+3 -> 3
+
+hm size - freq array - initialize new array list 
+
+update the freq and add the key 
+
+index 0 1 2 3 
+freq.   1 2 3 
+
+3(val) occured 3 time(freq)
+
+loop from max freq -> if more numbers available add it to arrlist 
+and make k--
+
+if k is 0 - quit. -> O(n) soln
+
+
+Parallely you can also do O(n log k)
+*/
